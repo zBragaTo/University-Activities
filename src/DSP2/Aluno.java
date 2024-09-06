@@ -1,59 +1,96 @@
 package DSP2;
 
-class Aluno {
-	private String nome, nome_curso, nível_curso;
-	private int cód_matrícula, ano_finalização;
-	private boolean é_bolsista, curso_finalizado, tem_trabalho;
-	private double mensalidade_curso, desconto;
-	private String dados_tcc[] = new String[3];
+class Aluno extends Curso {
+	private String nome;
+	private boolean bolsista, cursoFinalizado, temTrabalho;
+	private int anoFinalizacao;
+	private double desconto;
+	private String[] dadosTcc;
 
-	public Aluno(String nome, String nome_curso, String nível_curso, int cód_matrícula, boolean é_bolsista,
-			boolean curso_finalizado, boolean tem_trabalho, int ano_finalização, double mensalidade_curso,
-			double desconto, String dados_tcc[]) {
+	public Aluno(String nome, boolean bolsista, boolean cursoFinalizado, boolean temTrabalho, int anoFinalizacao,
+			double desconto, String nomeCurso, String nivelCurso, double mensalidade, String[] dadosTcc) {
+		super(nomeCurso, nivelCurso, mensalidade);
 		this.nome = nome;
-		this.nome_curso = nome_curso;
-		this.nível_curso = nível_curso;
-		this.cód_matrícula = cód_matrícula;
-		this.é_bolsista = é_bolsista;
-		this.curso_finalizado = curso_finalizado;
-		this.tem_trabalho = tem_trabalho;
-		this.ano_finalização = ano_finalização;
-		this.mensalidade_curso = mensalidade_curso;
+		this.bolsista = bolsista;
+		this.cursoFinalizado = cursoFinalizado;
+		this.temTrabalho = temTrabalho;
+		this.anoFinalizacao = anoFinalizacao;
 		this.desconto = desconto;
-		this.dados_tcc = dados_tcc;
+		this.dadosTcc = dadosTcc;
 	}
 
-	public String getDados() {
-		String resp = "Aluno: " + this.nome + "\n";
-		resp += "Curso: " + this.nível_curso + " em " + this.nome_curso + "\n";
-		if (this.é_bolsista) {
-			resp += "Bolsista com desconto de: " + this.desconto + "%\n";
-			resp += "Mensalidade: R$ " + this.mensalidade_curso * (1 - this.desconto / 100) + "\n";
-		} else
-			resp += "Mensalidade: R$ " + this.mensalidade_curso + "\n";
-		if (this.curso_finalizado) {
-			resp += "Curso finalizado em " + ano_finalização + "\n";
-			if (this.tem_trabalho) {
-				resp += "Título ";
-				switch (nível_curso) {
-				case "Graduação":
-					resp += "do TCC: ";
-					break;
-				case "Lato sensu":
-					resp += "da monografia: ";
-					break;
-				case "Mestrado":
-					resp += "da dissertação: ";
-					break;
-				case "Doutorado":
-					resp += "da tese: ";
-					break;
-				}
-				resp += dados_tcc[1] + "\n";
-				resp += "Orientador(a): Prof. " + dados_tcc[0] + "\n";
-				resp += "Nota: " + dados_tcc[2];
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public boolean isBolsista() {
+		return bolsista;
+	}
+
+	public void setBolsista(boolean bolsista) {
+		this.bolsista = bolsista;
+	}
+
+	public boolean isCursoFinalizado() {
+		return cursoFinalizado;
+	}
+
+	public void setCursoFinalizado(boolean cursoFinalizado) {
+		this.cursoFinalizado = cursoFinalizado;
+	}
+
+	public boolean isTemTrabalho() {
+		return temTrabalho;
+	}
+
+	public void setTemTrabalho(boolean temTrabalho) {
+		this.temTrabalho = temTrabalho;
+	}
+
+	public int getAnoFinalizacao() {
+		return anoFinalizacao;
+	}
+
+	public void setAnoFinalizacao(int anoFinalizacao) {
+		this.anoFinalizacao = anoFinalizacao;
+	}
+
+	public double getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(double desconto) {
+		this.desconto = desconto;
+	}
+
+	public String[] getDadosTcc() {
+		return dadosTcc;
+	}
+
+	public void setDadosTcc(String[] dadosTcc) {
+		this.dadosTcc = dadosTcc;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder resp = new StringBuilder("Aluno: " + nome + "\n" + super.toString()
+				+ (bolsista
+						? "Bolsista com desconto de: " + desconto + "%\nMensalidade: R$ "
+								+ getMensalidadeComDesconto(desconto) + "\n"
+						: "Mensalidade: R$ " + getMensalidade() + "\n"));
+
+		if (cursoFinalizado) {
+			resp.append("Curso finalizado em ").append(anoFinalizacao).append("\n");
+			if (temTrabalho && dadosTcc != null) {
+				resp.append("Título ").append(getTituloTcc()).append(": ").append(dadosTcc[1])
+						.append("\nOrientador(a): Prof. ").append(dadosTcc[0]).append("\nNota: ").append(dadosTcc[2])
+						.append("\n");
 			}
 		}
-		return resp;
+		return resp.toString();
 	}
 }
