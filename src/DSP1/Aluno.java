@@ -1,31 +1,66 @@
 package DSP1;
 
-class Aluno {
-	private String nome, nome_curso, nível_curso;
-	private int cód_matrícula;
-	private boolean é_bolsista;
-	private double mensalidade_curso, desconto;
+class Aluno extends Curso {
+	private String nome;
+	private int codMat;
+	private boolean bolsista;
+	private double desconto;
 
-	public Aluno(String nome, String nome_curso, String nível_curso, int cód_matrícula, boolean é_bolsista,
-			double mensalidade_curso, double desconto) {
+	public Aluno(String nome, int codMat, boolean bolsista, double desconto, String nomeCurso, String nivelCurso, double mensalidade) {
+		super(nomeCurso, nivelCurso, mensalidade);
 		this.nome = nome;
-		this.nome_curso = nome_curso;
-		this.nível_curso = nível_curso;
-		this.cód_matrícula = cód_matrícula;
-		this.é_bolsista = é_bolsista;
-		this.mensalidade_curso = mensalidade_curso;
+		this.codMat = codMat;
+		this.bolsista = bolsista;
 		this.desconto = desconto;
 	}
 
-	public String getDados() {
-		String resp = "Aluno: " + this.nome + "\n";
-		resp += "Curso: " + this.nível_curso + " em " + this.nome_curso + "\n";
-		if (é_bolsista) {
-			resp += "Bolsista com desconto de: " + this.desconto + "%\n";
-			resp += "Mensalidade: R$ " + this.mensalidade_curso * (1 - this.desconto / 100);
-		} else
-			resp += "Mensalidade: R$ " + this.mensalidade_curso;
-
-		return resp;
+	public String getNome() {
+		return nome;
 	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public boolean isBolsista() {
+		return bolsista;
+	}
+
+	public void setBolsista(boolean bolsista) {
+		this.bolsista = bolsista;
+	}
+
+	public double getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(double desconto) {
+		this.desconto = desconto;
+	}
+
+	public int getCodMat() {
+		return codMat;
+	}
+
+	public void setCodMat(int codMat) {
+		this.codMat = codMat;
+	}
+
+	public String verificaBolsa() {
+		if (bolsista) {
+			double novaMensalidade = this.getMensalidade() * (1 - this.desconto / 100);
+			return "Bolsista com desconto de: " + this.desconto + "%\n"
+					+ "Mensalidade: R$: " + novaMensalidade;
+		} else {
+			return "Mensalidade: " + getMensalidade();
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Aluno: " + this.nome + "\n"
+				+ "Curso: " + getNivelCurso() + " em " + getNomeCurso() + "\n" + verificaBolsa(); 
+	}
+
 }
+
