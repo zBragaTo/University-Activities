@@ -37,7 +37,7 @@ public class __Aula4_ED {
 			p.push(34);
 			System.out.println("Pilha (após mais inserções):");
 			System.out.println(p);
-			// remove os múltiplos de 4 da pilha e deixa a pilha na mesma ordem
+
 			p.popMultiple(4); 
 			System.out.println("Estado da Pilha depois de removidos os múltiplos de 4:");
 			System.out.println(p);	
